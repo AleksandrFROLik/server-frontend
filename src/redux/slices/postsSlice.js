@@ -24,22 +24,34 @@ const initialState = {
   },
 };
 
-const postsSlice = createSlice( {
+const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducer: {},
   extraReducers: {
     [fetchPosts.pending]: ( state ) => {
-      state.posts.items = [];
       state.post.status = 'loading';
+      state.posts.items = [];
     },
     [fetchPosts.fulfilled]: ( state, action ) => {
-      state.posts.items = action.payload;
       state.post.status = 'loaded';
+      state.posts.items = action.payload;
     },
     [fetchPosts.rejected]: ( state) => {
-      state.posts.items = [];
       state.post.status = 'error';
+      state.posts.items = [];
+    },
+    [fetchTags.pending]: ( state ) => {
+      state.tags.status = 'loading';
+      state.tags.items = [];
+    },
+    [fetchTags.fulfilled]: ( state, action ) => {
+      state.tags.status = 'loaded';
+      state.tags.items = action.payload;
+    },
+    [fetchTags.rejected]: ( state) => {
+      state.tags.status = 'error';
+      state.tags.items = [];
     },
   }// в extraReducers мы отлавливаем состояние запроса что можно было использоват индикаторы загрузки или приход ошибки.
 } );
