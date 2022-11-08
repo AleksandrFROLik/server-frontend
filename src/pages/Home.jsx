@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
-import { Post } from '../components';
-import { TagsBlock } from '../components';
-import { CommentsBlock } from '../components';
+import { CommentsBlock, Post, TagsBlock } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, fetchTags } from '../redux/slices/postsSlice';
 
@@ -17,8 +15,8 @@ export const Home = () => {
   const isTagsLoading = tags.status === 'loading';
 
   useEffect( () => {
-    dispatch( fetchPosts() )
-    dispatch( fetchTags() )
+      dispatch( fetchPosts() )
+      dispatch( fetchTags() )
   }, [dispatch] )
 
   return (

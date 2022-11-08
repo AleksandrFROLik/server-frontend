@@ -21,18 +21,17 @@ export const AddPost = () => {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
   const inputFileRef = useRef(null)
-
   const isEditing = Boolean(id)
 
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData();
-      const file = event.target.files;
+      const file = event.target.files[0];
       formData.append('image', file);
       const { data } = await axios.post('/upload', formData);
       setImageUrl(data.url);
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       alert('Error image...')
     }
   };
@@ -47,6 +46,8 @@ export const AddPost = () => {
 
   const onSubmit = async () => {
     try {
+      setIsLoading(true)
+
       const fields = {
         title,
         text,
@@ -54,12 +55,12 @@ export const AddPost = () => {
         imageUrl,
       }
 
-      setIsLoading(true)
-
       const { data } = isEditing
         ? await axios.patch(`/posts/${id}`, fields)
         : await axios.post('/posts', fields);
+
       const _id = isEditing ? id : data._id;
+
       navigate(`/posts/${_id}`);
     } catch (err) {
       console.warn(err)

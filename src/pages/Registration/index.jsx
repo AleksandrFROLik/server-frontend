@@ -7,37 +7,36 @@ import Avatar from '@mui/material/Avatar';
 
 import styles from './Login.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import {  fetchRegister, selectIsAuth } from '../../redux/slices/authSlice';
+import { fetchRegister, selectIsAuth } from '../../redux/slices/authSlice';
 import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 
 export const Registration = () => {
-  const isAuth = useSelector( selectIsAuth );
+  const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch()
-  const { register, handleSubmit,  setError, formState: { errors, isValid } } = useForm( {
+  const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({
     defaultValues: {
       fullName: '',
       email: '',
       password: '',
     },
     mode: 'onChange',
-  } );
+  });
 
-  const onSubmit = async ( values ) => {
-    const data = await dispatch( fetchRegister( values ) );
-
-    if ( !data.payload ) alert( 'Do not registration...' );
-    if ( 'token' in data.payload ) window.localStorage.setItem( 'token', data.payload.token );
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchRegister(values));
+    if ( !data.payload ) alert('Do not registration...');
+    if ( 'token' in data.payload ) window.localStorage.setItem('token', data.payload.token);
   };
 
-  if ( isAuth ) {
-    return <Navigate to='/'/>
-  }
+  if ( isAuth ) return <Navigate to='/'/>;
+
+
   return (
     <Paper classes={{ root: styles.root }}>
-      <form onSubmit={handleSubmit( onSubmit )}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Typography classes={{ root: styles.title }} variant="h5">
-          Создание аккаунта
+          Create account
         </Typography>
         <div className={styles.avatar}>
           <Avatar sx={{ width: 100, height: 100 }}/>
@@ -46,27 +45,27 @@ export const Registration = () => {
           className={styles.field}
           label="Full name"
           type='text'
-          error={Boolean( errors.fullName?.message )}
+          error={Boolean(errors.fullName?.message)}
           helperText={errors.fullName?.message}
-          {...register( 'fullName', { required: 'Enter full name...' } )}
+          {...register('fullName', { required: 'Enter full name...' })}
           fullWidth/>
         <TextField
           className={styles.field}
           type='email'
           label="E-Mail"
-          error={Boolean( errors.email?.message )}
+          error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
-          {...register( 'email', { required: 'Enter email...' } )}
+          {...register('email', { required: 'Enter email...' })}
           fullWidth/>
         <TextField className={styles.field}
                    type='password'
-                   label="Пароль"
-                   {...register( 'password', { required: 'Enter password...' } )}
+                   label="Password"
+                   {...register('password', { required: 'Enter password...' })}
                    helperText={errors.password?.message}
-                   error={Boolean( errors.password?.message )}
+                   error={Boolean(errors.password?.message)}
                    fullWidth/>
         <Button disabled={!isValid} type='submit' size="large" variant="contained" fullWidth>
-          Зарегистрироваться
+          Registration
         </Button>
       </form>
     </Paper>

@@ -10,21 +10,21 @@ import { fetchAuth, selectIsAuth } from '../../redux/slices/authSlice';
 import { Navigate } from 'react-router-dom';
 
 export const Login = () => {
-  const isAuth = useSelector( selectIsAuth );
+  const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch()
-  const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm( {
+  const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({
     defaultValues: {
       email: '',
       password: ''
     },
     mode: 'onChange',
-  } );
+  });
 
-  const onSubmit = async ( values ) => {
-    const data = await dispatch( fetchAuth( values ) );
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchAuth(values));
 
-    if ( !data.payload ) alert( 'Do not authorization...' );
-    if ( 'token' in data.payload ) window.localStorage.setItem( 'token', data.payload.token );
+    if ( !data.payload ) alert('Do not authorization...');
+    if ( 'token' in data.payload ) window.localStorage.setItem('token', data.payload.token);
   };
 
   if ( isAuth ) {
@@ -36,25 +36,25 @@ export const Login = () => {
       <Typography classes={{ root: styles.title }} variant="h5">
         Вход в аккаунт
       </Typography>
-      <form onSubmit={handleSubmit( onSubmit )}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           type='email'
           className={styles.field}
           label="E-Mail"
-          error={Boolean( errors.email?.message )}
+          error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
-          {...register( 'email', { required: 'Enter email...' } )}
+          {...register('email', { required: 'Enter email...' })}
           fullWidth
         />
         <TextField className={styles.field}
                    type='password'
                    label="Пароль"
-                   {...register( 'password', { required: 'Enter password...' } )}
+                   {...register('password', { required: 'Enter password...' })}
                    helperText={errors.password?.message}
-                   error={Boolean( errors.password?.message )}
+                   error={Boolean(errors.password?.message)}
                    fullWidth/>
-        <Button  disabled={!isValid} type='submit' size="large" variant="contained" fullWidth>
-          Войти
+        <Button disabled={!isValid} type='submit' size="large" variant="contained" fullWidth>
+          Enter
         </Button>
       </form>
     </Paper>
